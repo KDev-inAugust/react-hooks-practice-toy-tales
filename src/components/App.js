@@ -24,6 +24,7 @@ function App() {
     image:imageURL,
     likes:0
   }
+
   console.log("direct set NAME  (in App) : ", formName)
 
   console.log("direct set IMAGE (in App) : ", imageURL)
@@ -42,22 +43,35 @@ fetch('http://localhost:3001/toys', {
 .then((res)=>res.json())
 .then(data=>setNew(data))
 }
+
+//-------------donate/DELETE-----
+
+function deleteToy (data){
+  console.log("toy id: ", data.id)
+
+  fetch(`http://localhost:3001/toys/${data.id}`, {
+    method: "DELETE",
+  })
+  .then(res=>res.json())
+  .then(()=>console.log(data.id))
+}
   
 
 
 //------------------------------------------
   function handleClick() {
     setShowForm((showForm) => !showForm);
+    
   }
 
   return (
     <>
       <Header />
-      {showForm ? <ToyForm postNewToy={postNewToy} directSetName={setFormName} directSetImage={setImageURL}/> : null}
+      {showForm ? <ToyForm postNewToy={postNewToy} deleteToy={deleteToy} directSetName={setFormName} directSetImage={setImageURL}/> : null}
       <div className="buttonContainer">
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer data={data}/>
+      <ToyContainer data={data} deleteToy={deleteToy}/>
     </>
   );
 }
