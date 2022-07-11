@@ -9,13 +9,14 @@ function App() {
   const [data, setData] = useState([])
   const [formName, setFormName] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [newT, setNew] = useState({})
 
   useEffect(()=>
   {
     fetch('http://localhost:3001/toys')
     .then(res=>res.json())
     .then(data=>setData(data))
-  },[])
+  },[newT])
 
 
   const newToy = {
@@ -23,16 +24,26 @@ function App() {
     image:imageURL,
     likes:0
   }
+  console.log("direct set NAME  (in App) : ", formName)
 
-  //---------grab form input--------------
+  console.log("direct set IMAGE (in App) : ", imageURL)
+
+  //---------post new toy to Server--------------
 
 function postNewToy (){
 console.log("post new toy triggered")
+fetch('http://localhost:3001/toys', {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(newToy),
+})
+.then((res)=>res.json())
+.then(data=>setNew(data))
 }
   
-console.log("direct set NAME  (in App) : ", formName)
 
-console.log("direct set IMAGE (in App) : ", imageURL)
 
 //------------------------------------------
   function handleClick() {

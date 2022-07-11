@@ -5,7 +5,7 @@ function ToyContainer({data}) {
 
   return (
     <div id="toy-collection">{
-      data.map((index)=>{return <ToyCard id={index.id} data={index}/>})
+      data.map((index)=>{return <ToyCard key={index.id} data={index}/>})
 
     }</div>
   );
