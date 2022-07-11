@@ -25,10 +25,6 @@ function App() {
     likes:0
   }
 
-  console.log("direct set NAME  (in App) : ", formName)
-
-  console.log("direct set IMAGE (in App) : ", imageURL)
-
   //---------post new toy to Server--------------
 
 function postNewToy (){
@@ -56,12 +52,24 @@ function deleteToy (data){
   .then(()=>setNew(data.id))
 }
   
+//-------------update Likes-------------
 
+function updateLikes (data){
+  console.log("like clicked  ", data.likes+1 )
+  fetch(`http://localhost:3001/toys/${data.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({likes:data.likes+1}),
+  })
+  .then((res)=>res.json({}))
+  .then((data)=>setNew(data))
 
-//------------------------------------------
+}
+
   function handleClick() {
     setShowForm((showForm) => !showForm);
-    
   }
 
   return (
@@ -71,7 +79,7 @@ function deleteToy (data){
       <div className="buttonContainer">
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer data={data} deleteToy={deleteToy}/>
+      <ToyContainer data={data} deleteToy={deleteToy} updateLikes={updateLikes}/>
     </>
   );
 }
