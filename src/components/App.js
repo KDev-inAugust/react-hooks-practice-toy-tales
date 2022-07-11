@@ -53,7 +53,7 @@ function deleteToy (data){
     method: "DELETE",
   })
   .then(res=>res.json())
-  .then(()=>console.log(data.id))
+  .then(()=>setNew(data.id))
 }
   
 
